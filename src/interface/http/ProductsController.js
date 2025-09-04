@@ -1,12 +1,14 @@
-
-
 export class ProductsController {
-    constructor(ListProductsUseCase) {
-        this.ListProductsUseCase = ListProductsUseCase;
-    }
+  constructor(listProductsUseCase) {
+    this.listProductsUseCase = listProductsUseCase;
+  }
 
-    async list(req, res, next) {
-        const products = await this.ListProductsUseCase.execute();
-        res.send(products);
+  async list(req, res) {
+    try {
+      const products = await this.listProductsUseCase.execute();
+      res.status(200).json({ items: products });
+    } catch (e) {
+      res.status(500).json({ error: "Unable to list products" });
     }
+  }
 }
